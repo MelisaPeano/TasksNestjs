@@ -6,12 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuhController = void 0;
+exports.LoggerMiddleware = void 0;
 const common_1 = require("@nestjs/common");
-let AuhController = class AuhController {
+let LoggerMiddleware = class LoggerMiddleware {
+    use(req, res, next) {
+        console.log('middleware', req.originalUrl);
+        next();
+    }
 };
-exports.AuhController = AuhController;
-exports.AuhController = AuhController = __decorate([
-    (0, common_1.Controller)('auh')
-], AuhController);
-//# sourceMappingURL=auh.controller.js.map
+exports.LoggerMiddleware = LoggerMiddleware;
+exports.LoggerMiddleware = LoggerMiddleware = __decorate([
+    (0, common_1.Injectable)()
+], LoggerMiddleware);
+//# sourceMappingURL=logger.middleware.js.map

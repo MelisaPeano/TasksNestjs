@@ -1,5 +1,5 @@
 
-En este proyecto voy a crear una applicación de tareas fullStack usando NestJS y Typescript en el backend, y en el Frontend voy a usar React y como framework de estilos Tailwind css
+En este proyecto voy a crear una applicación de tareas fullStack usando NestJS y Typescript en el backend, documentando la API con la librería swagger, y en el Frontend voy a usar React y como framework de estilos Tailwind css
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest

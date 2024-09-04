@@ -9,11 +9,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksService = void 0;
 const common_1 = require("@nestjs/common");
 let TasksService = class TasksService {
-    getTasks() {
-        return 'obteniendo todas las tareas';
+    constructor() {
+        this.tasks = [];
     }
-    createTasks() {
-        return 'crear tarea';
+    getTasks() {
+        return this.tasks;
+    }
+    getTask(id) {
+        const foundTasks = this.tasks.find((tasks) => tasks.id === id);
+        const result = foundTasks ? foundTasks : new common_1.NotFoundException('tarea no encontrada');
+        return result;
+    }
+    createTasks(tasks) {
+        console.log(tasks);
+        this.tasks.push({
+            ...tasks,
+            id: this.tasks.length + 1,
+        });
+        return tasks;
     }
     updateTasks() {
         return 'actualizar tarea';

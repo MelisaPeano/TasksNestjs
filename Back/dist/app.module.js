@@ -14,14 +14,14 @@ const tasks_module_1 = require("./tasks/tasks.module");
 const auth_module_1 = require("./auth/auth.module");
 const users_module_1 = require("./users/users.module");
 const projects_module_1 = require("./projects/projects.module");
-const auh_controller_1 = require("./auh/auh.controller");
+const hello_module_1 = require("./hello/hello.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [tasks_module_1.TasksModule, auth_module_1.AuthModule, users_module_1.UsersModule, projects_module_1.ProjectsModule],
-        controllers: [app_controller_1.AppController, auh_controller_1.AuhController],
+        imports: [tasks_module_1.TasksModule, auth_module_1.AuthModule, users_module_1.UsersModule, projects_module_1.ProjectsModule, hello_module_1.HelloModule],
+        controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
 ], AppModule);
