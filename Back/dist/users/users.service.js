@@ -22,6 +22,21 @@ let UsersService = class UsersService {
     createOneUsers(users) {
         return this.prisma.user.create({ data: users });
     }
+    async findOne(username) {
+        console.log("Received username en users service:", username);
+        if (!username) {
+            throw new Error("Username is required");
+        }
+        const user = await this.prisma.user.findUnique({
+            where: {
+                username: username,
+            },
+        });
+        if (!user) {
+            throw new common_1.NotFoundException(`User with username ${username} not found`);
+        }
+        return user;
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

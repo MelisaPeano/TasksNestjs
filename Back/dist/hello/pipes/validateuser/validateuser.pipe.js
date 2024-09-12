@@ -13,7 +13,7 @@ let ValidateuserPipe = class ValidateuserPipe {
         const ageNumber = parseInt(value.age.toString(), 10);
         if (isNaN(ageNumber)) {
             if (isNaN(ageNumber)) {
-                throw new common_1.HttpException('Age must be a number', common_1.HttpStatus.BAD_REQUEST);
+                throw new common_1.HttpException("Age must be a number", common_1.HttpStatus.BAD_REQUEST);
             }
         }
         return { ...value, age: ageNumber };

@@ -14,7 +14,7 @@ let ProjectsModule = class ProjectsModule {
 exports.ProjectsModule = ProjectsModule;
 exports.ProjectsModule = ProjectsModule = __decorate([
     (0, common_1.Module)({
-        controllers: [projects_controller_1.ProjectsController]
+        controllers: [projects_controller_1.ProjectsController],
     })
 ], ProjectsModule);
 //# sourceMappingURL=projects.module.js.map

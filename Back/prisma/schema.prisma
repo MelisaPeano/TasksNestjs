@@ -20,4 +20,14 @@ model User {
   password String
   createdAt DateTime @default(now())
   updateaT DateTime @updatedAt
+  username String @unique
+}
+
+model Task {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  status      Boolean  @default(true)
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
 }

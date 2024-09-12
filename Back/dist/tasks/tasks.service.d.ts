@@ -1,10 +1,14 @@
-import { CreateTasksDto } from './dto/createTasks.dto';
+import { CreateTasksDto } from "./dto/createTasks.dto";
+import { PrismaService } from "../prisma.service";
+import { Task } from "@prisma/client";
+import { updateTasksDto } from "./dto/updateTasks.dto";
 export declare class TasksService {
-    private tasks;
-    getTasks(): any[];
-    getTask(id: number): any;
-    createTasks(tasks: CreateTasksDto): CreateTasksDto;
-    updateTasks(): string;
-    updateStatusTasks(): string;
-    deleteTasks(): string;
+    private prisma;
+    constructor(prisma: PrismaService);
+    getTasks(): Promise<Task[]>;
+    getTask(id: number): Promise<Task | null>;
+    createTask(data: CreateTasksDto): Promise<Task>;
+    updateTask(id: number, data: updateTasksDto): Promise<Task>;
+    updateStatusTask(id: number): Promise<Task>;
+    deleteTask(id: number): Promise<Task>;
 }

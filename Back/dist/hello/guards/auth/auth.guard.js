@@ -12,7 +12,7 @@ let AuthGuard = class AuthGuard {
     canActivate(context) {
         const request = context.switchToHttp().getRequest();
         console.log(request.url);
-        if (request.url === '/greet') {
+        if (request.url === "/greet") {
             return false;
         }
         return true;

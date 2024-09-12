@@ -16,7 +16,7 @@ exports.HelloModule = HelloModule;
 exports.HelloModule = HelloModule = __decorate([
     (0, common_1.Module)({
         controllers: [hello_controller_1.HelloController],
-        providers: [hello_service_1.HelloService]
+        providers: [hello_service_1.HelloService],
     })
 ], HelloModule);
 //# sourceMappingURL=hello.module.js.map

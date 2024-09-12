@@ -1,22 +1,33 @@
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/createUser.dto';
+import { UsersService } from "./users.service";
+import { CreateUserDto } from "./dto/createUser.dto";
 export declare class UsersController {
     private usersService;
     constructor(usersService: UsersService);
-    getUsers(): import(".prisma/client").Prisma.PrismaPromise<{
+    getUsers(): Promise<{
         id: string;
         email: string;
         name: string | null;
         password: string;
         createdAt: Date;
         updateaT: Date;
+        username: string;
     }[]>;
-    createUsers(user: CreateUserDto): import(".prisma/client").Prisma.Prisma__UserClient<{
+    createUsers(user: CreateUserDto): Promise<{
         id: string;
         email: string;
         name: string | null;
         password: string;
         createdAt: Date;
         updateaT: Date;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs>;
+        username: string;
+    }>;
+    findOne(username: string): Promise<{
+        id: string;
+        email: string;
+        name: string | null;
+        password: string;
+        createdAt: Date;
+        updateaT: Date;
+        username: string;
+    }>;
 }

@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HelloController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const validateuser_pipe_1 = require("./pipes/validateuser/validateuser.pipe");
 const auth_guard_1 = require("./guards/auth/auth.guard");
@@ -30,22 +31,25 @@ let HelloController = class HelloController {
 };
 exports.HelloController = HelloController;
 __decorate([
-    (0, common_1.Get)('tiket/:num'),
-    __param(0, (0, common_1.Param)('num', common_1.ParseIntPipe)),
+    (0, common_1.Get)("tiket/:num"),
+    openapi.ApiResponse({ status: 200, type: Number }),
+    __param(0, (0, common_1.Param)("num", common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], HelloController.prototype, "getNumber", null);
 __decorate([
-    (0, common_1.Get)('active/:status'),
-    __param(0, (0, common_1.Param)('status', common_1.ParseBoolPipe)),
+    (0, common_1.Get)("active/:status"),
+    openapi.ApiResponse({ status: 200, type: Boolean }),
+    __param(0, (0, common_1.Param)("status", common_1.ParseBoolPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Boolean]),
     __metadata("design:returntype", void 0)
 ], HelloController.prototype, "isUserActive", null);
 __decorate([
-    (0, common_1.Get)('greet'),
+    (0, common_1.Get)("greet"),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    openapi.ApiResponse({ status: 200, type: String }),
     __param(0, (0, common_1.Query)(validateuser_pipe_1.ValidateuserPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

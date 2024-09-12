@@ -1,5 +1,5 @@
-import { CreateUserDto } from './dto/createUser.dto';
-import { PrismaService } from 'src/prisma.service';
+import { CreateUserDto } from "./dto/createUser.dto";
+import { PrismaService } from "../prisma.service";
 export declare class UsersService {
     private prisma;
     constructor(prisma: PrismaService);
@@ -10,6 +10,7 @@ export declare class UsersService {
         password: string;
         createdAt: Date;
         updateaT: Date;
+        username: string;
     }[]>;
     createOneUsers(users: CreateUserDto): import(".prisma/client").Prisma.Prisma__UserClient<{
         id: string;
@@ -18,5 +19,15 @@ export declare class UsersService {
         password: string;
         createdAt: Date;
         updateaT: Date;
+        username: string;
     }, never, import("@prisma/client/runtime/library").DefaultArgs>;
+    findOne(username: string): Promise<{
+        id: string;
+        email: string;
+        name: string | null;
+        password: string;
+        createdAt: Date;
+        updateaT: Date;
+        username: string;
+    }>;
 }

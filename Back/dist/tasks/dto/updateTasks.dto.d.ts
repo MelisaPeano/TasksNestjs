@@ -1,4 +1,5 @@
-export interface updateTasksDto {
+export declare class updateTasksDto {
     title?: string;
-    status?: boolean;
+    description?: string;
+    isCompleted?: boolean;
 }

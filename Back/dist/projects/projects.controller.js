@@ -7,11 +7,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectsController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 let ProjectsController = class ProjectsController {
 };
 exports.ProjectsController = ProjectsController;
 exports.ProjectsController = ProjectsController = __decorate([
-    (0, common_1.Controller)('projects')
+    (0, common_1.Controller)("projects")
 ], ProjectsController);
 //# sourceMappingURL=projects.controller.js.map

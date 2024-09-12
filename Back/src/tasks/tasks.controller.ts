@@ -1,36 +1,131 @@
-import { Controller, Get, Post, Put, Patch, Delete, Body, Param} from '@nestjs/common';
-import { TasksService } from './tasks.service';
-import { CreateTasksDto } from './dto/createTasks.dto';
-import { updateTasksDto } from './dto/updateTasks.dto';
-
-@Controller('/tasks')
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Patch,
+  Delete,
+  Body,
+  Param,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  HttpException,
+} from "@nestjs/common";
+import { TasksService } from "./tasks.service";
+import { CreateTasksDto } from "./dto/createTasks.dto";
+import { updateTasksDto } from "./dto/updateTasks.dto";
+import {
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
+@Controller("/tasks")
+@ApiTags("tasks")
 export class TasksController {
   tasksService: TasksService;
   constructor(tasksService: TasksService) {
     this.tasksService = tasksService;
   }
+  @ApiOperation({ summary: "Get all tasks" })
+  @ApiResponse({ status: 200, description: "Get all tasks" })
+  @ApiResponse({ status: 400, description: "not tasks found" })
+  @HttpCode(HttpStatus.OK)
   @Get()
-  getAllTasks() {
-    return this.tasksService.getTasks();
+  async getAllTasks() {
+    const tasks = await this.tasksService.getTasks();
+    if (!tasks || tasks.length === 0) {
+      throw new NotFoundException("no tasks found");
+    }
+    return {
+      data: tasks,
+      statusCode: HttpStatus.OK,
+      message: "Tasks retrieved successfully",
+    };
   }
-  @Get('/:id')
-  getTask(@Param('id') id: string) {
-    return this.tasksService.getTask(parseInt(id));
+  @ApiOperation({ summary: "Get a task by ID" })
+  @ApiResponse({ status: 200, description: "Task found successfully" })
+  @ApiNotFoundResponse({ description: "Task not found" })
+  @HttpCode(HttpStatus.OK)
+  @Get("/:id")
+  async getTask(@Param("id") id: string) {
+    const task = this.tasksService.getTask(parseInt(id));
+    if (!task) {
+      throw new NotFoundException(`task whit ${id} not found`);
+    }
+    return {
+      data: task,
+      statusCode: HttpStatus.OK,
+      message: "Task retrieved successfully",
+    };
   }
+  @ApiOperation({ summary: "Create a new task" })
+  @ApiResponse({ status: 201, description: "tasks created" })
+  @ApiBadRequestResponse({ description: "Invalid task data" })
+  @HttpCode(HttpStatus.CREATED)
   @Post()
-  createTasks(@Body()tasks: CreateTasksDto) {
-    this.tasksService.createTasks(tasks);
+  async createTasks(@Body() tasks: CreateTasksDto) {
+    try {
+      const createdTask = this.tasksService.createTask(tasks);
+      return {
+        statusCode: HttpStatus.CREATED,
+        message: "task created successefuly",
+        data: createdTask,
+      };
+    } catch (error) {
+      throw new HttpException(
+        { statusCode: HttpStatus.BAD_REQUEST, message: "Invalid task data," },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
-  @Put('/:id')
-  updateTasks(@Body()tasks: updateTasksDto) {
-    this.tasksService.updateTasks();
+  @ApiOperation({ summary: "Update a task by ID" })
+  @ApiResponse({ status: 200, description: "Task updated successfully" })
+  @ApiNotFoundResponse({ description: "Task not found" })
+  @HttpCode(HttpStatus.OK)
+  @Put("/:id")
+  async updateTasks(@Param("id") id: string, @Body() tasks: updateTasksDto) {
+    const updatedTask = await this.tasksService.updateTask(parseInt(id), tasks);
+    if (!updatedTask) {
+      throw new NotFoundException(`Task with ID ${id} not found`);
+    }
+    return {
+      statusCode: HttpStatus.OK,
+      message: "Task updated successfully",
+      data: updatedTask,
+    };
   }
-  @Patch()
-  updateStatusTasks() {
-    this.tasksService.updateStatusTasks();
+  @ApiOperation({ summary: "Update task status by ID" })
+  @ApiResponse({ status: 200, description: "Task status updated successfully" })
+  @ApiNotFoundResponse({ description: "Task not found" })
+  @HttpCode(HttpStatus.OK)
+  @Patch("/id")
+  async updateStatusTasks(@Param("id") id: string) {
+    const updatedTask = await this.tasksService.updateStatusTask(parseInt(id));
+    if (!updatedTask) {
+      throw new NotFoundException(`Task with ID ${id} not found`);
+    }
+    return {
+      statusCode: HttpStatus.OK,
+      message: "Task status updated successfully",
+      data: updatedTask,
+    };
   }
-  @Delete()
-  deleteTasks() {
-    return this.tasksService.deleteTasks();
+  @ApiOperation({ summary: "Delete a task by ID" })
+  @ApiResponse({ status: 200, description: "Task deleted successfully" })
+  @ApiNotFoundResponse({ description: "Task not found" })
+  @HttpCode(HttpStatus.OK)
+  @Delete("/:id")
+  async deleteTasks(@Param("id") id: string) {
+    const deletedTask = await this.tasksService.deleteTask(parseInt(id));
+    if (!deletedTask) {
+      throw new NotFoundException(`Task with ID ${id} not found`);
+    }
+    return {
+      statusCode: HttpStatus.OK,
+      message: "Task deleted successfully",
+    };
   }
 }
