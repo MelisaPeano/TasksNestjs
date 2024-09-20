@@ -13,20 +13,31 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("../users/users.service");
 const jwt_1 = require("@nestjs/jwt");
+const axios_1 = require("@nestjs/axios");
 let AuthService = class AuthService {
-    constructor(usersService, jwtService) {
+    constructor(httpService, usersService, jwtService) {
+        this.httpService = httpService;
         this.usersService = usersService;
         this.jwtService = jwtService;
     }
-    async signIn(username, pass) {
-        console.log("Received username auth service :", username);
+    async validateUser(username, password) {
         const user = await this.usersService.findOne(username);
+        if (user && user.password === password) {
+            const { password, ...result } = user;
+            return result;
+        }
+        return null;
+    }
+    async signIn(email, pass) {
+        console.log("Received username auth service :", email);
+        const user = await this.usersService.findOne(email);
         if (user?.password !== pass) {
-            throw new common_1.UnauthorizedException();
+            throw new common_1.UnauthorizedException("Invalid credentials");
         }
         const payload = { sub: user.id, username: user.username };
         return {
             access_token: await this.jwtService.signAsync(payload),
+            user,
         };
     }
     async findOrCreateUser(user) {
@@ -40,7 +51,8 @@ let AuthService = class AuthService {
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [users_service_1.UsersService,
+    __metadata("design:paramtypes", [axios_1.HttpService,
+        users_service_1.UsersService,
         jwt_1.JwtService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

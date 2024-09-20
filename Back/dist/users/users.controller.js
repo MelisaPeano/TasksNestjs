@@ -38,16 +38,6 @@ let UsersController = class UsersController {
             throw new common_1.BadRequestException("Invalid user data", error.message);
         }
     }
-    async findOne(username) {
-        if (!username) {
-            throw new common_1.BadRequestException("username is required");
-        }
-        const user = await this.usersService.findOne(username);
-        if (!user) {
-            throw new userNotFound_exception_1.UserNotFoundException();
-        }
-        return user;
-    }
 };
 exports.UsersController = UsersController;
 __decorate([
@@ -65,28 +55,13 @@ __decorate([
     (0, swagger_1.ApiResponse)({ status: 201, description: "User created successfully" }),
     (0, swagger_1.ApiResponse)({ status: 400, description: "Bad Request: Invalid input" }),
     (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
-    (0, common_1.Post)(),
+    (0, common_1.Post)("/create"),
     openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [createUser_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "createUsers", null);
-__decorate([
-    (0, swagger_1.ApiOperation)({ summary: "Login a user" }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: "User logged in successfully" }),
-    (0, swagger_1.ApiResponse)({ status: 404, description: "User not found" }),
-    (0, swagger_1.ApiResponse)({
-        status: 400,
-        description: "Bad Request: Missing or invalid username",
-    }),
-    (0, common_1.Get)("/login"),
-    openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Query)("username")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "findOne", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)("users"),
     (0, swagger_1.ApiTags)("users"),

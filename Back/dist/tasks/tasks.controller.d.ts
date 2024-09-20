@@ -32,25 +32,19 @@ export declare class TasksController {
     createTasks(tasks: CreateTasksDto): Promise<{
         statusCode: HttpStatus;
         message: string;
-        data: Promise<{
-            id: number;
+        data: {
             title: string;
-            description: string | null;
-            status: boolean;
-            isCompleted: boolean;
-            createdAt: Date;
-        }>;
+            description: string;
+            id: number;
+        };
     }>;
     updateTasks(id: string, tasks: updateTasksDto): Promise<{
         statusCode: HttpStatus;
         message: string;
         data: {
-            id: number;
             title: string;
-            description: string | null;
-            status: boolean;
-            isCompleted: boolean;
-            createdAt: Date;
+            description: string;
+            id: number;
         };
     }>;
     updateStatusTasks(id: string): Promise<{

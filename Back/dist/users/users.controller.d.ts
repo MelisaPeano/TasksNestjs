@@ -21,13 +21,4 @@ export declare class UsersController {
         updateaT: Date;
         username: string;
     }>;
-    findOne(username: string): Promise<{
-        id: string;
-        email: string;
-        name: string | null;
-        password: string;
-        createdAt: Date;
-        updateaT: Date;
-        username: string;
-    }>;
 }

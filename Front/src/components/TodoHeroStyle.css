@@ -1,0 +1,21 @@
+.todohero_section {
+  border: 1px solid #c2b39a;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  align-self: center;
+  width: 100%;
+  padding: 12px;
+  border-radius: 11px;
+}
+.todohero_section div:last-child {
+  background-color: #88ab33;
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  font-size: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

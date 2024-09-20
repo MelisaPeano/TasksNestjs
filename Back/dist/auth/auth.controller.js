@@ -27,10 +27,11 @@ let AuthController = class AuthController {
         this.localJWT = localJWT;
     }
     signIn(signInDto) {
-        console.log("Received username auth controller :", signInDto.username);
-        return this.authService.signIn(signInDto.username, signInDto.password);
+        console.log("Received username auth controller :", signInDto.email);
+        return this.authService.signIn(signInDto.email, signInDto.password);
     }
     getProfile(req) {
+        console.log(req.user);
         return req.user;
     }
 };
@@ -39,7 +40,7 @@ __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
     (0, common_1.Post)("login"),
-    openapi.ApiResponse({ status: common_1.HttpStatus.OK }),
+    openapi.ApiResponse({ status: common_1.HttpStatus.OK, type: Object }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [loginUser_dto_1.LoginUserDto]),

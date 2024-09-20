@@ -22,20 +22,27 @@ let UsersService = class UsersService {
     createOneUsers(users) {
         return this.prisma.user.create({ data: users });
     }
-    async findOne(username) {
-        console.log("Received username en users service:", username);
-        if (!username) {
-            throw new Error("Username is required");
+    async findOne(email) {
+        console.log("Received username en users service:", email);
+        try {
+            if (!email) {
+                throw new Error("Username is required");
+            }
+            const user = await this.prisma.user.findUnique({
+                where: {
+                    email: email,
+                },
+            });
+            console.log("user", user);
+            if (!user) {
+                throw new common_1.NotFoundException(`User with username ${email} not found`);
+            }
+            return user;
         }
-        const user = await this.prisma.user.findUnique({
-            where: {
-                username: username,
-            },
-        });
-        if (!user) {
-            throw new common_1.NotFoundException(`User with username ${username} not found`);
+        catch (error) {
+            console.error("Error finding user:", error);
+            throw new Error("An error occurred while fetching the user.");
         }
-        return user;
     }
 };
 exports.UsersService = UsersService;

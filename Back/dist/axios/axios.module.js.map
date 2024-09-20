@@ -1,0 +1,1 @@
+{"version":3,"file":"axios.module.js","sourceRoot":"","sources":["../../src/axios/axios.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAgD;AAChD,yCAA6D;AAQtD,IAAM,WAAW,GAAjB,MAAM,WAAW;CAAG,CAAA;AAAd,kCAAW;sBAAX,WAAW;IANvB,IAAA,eAAM,GAAE;IACR,IAAA,eAAM,EAAC;QACN,OAAO,EAAE,CAAC,kBAAc,CAAC;QACzB,SAAS,EAAE,EAAE;QACb,OAAO,EAAE,CAAC,kBAAc,CAAC;KAC1B,CAAC;GACW,WAAW,CAAG"}

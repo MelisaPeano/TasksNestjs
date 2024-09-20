@@ -47,11 +47,15 @@ let TasksController = class TasksController {
     }
     async createTasks(tasks) {
         try {
-            const createdTask = this.tasksService.createTask(tasks);
+            const createdTask = await this.tasksService.createTask(tasks);
             return {
                 statusCode: common_1.HttpStatus.CREATED,
                 message: "task created successefuly",
-                data: createdTask,
+                data: {
+                    title: createdTask.title,
+                    description: createdTask.description,
+                    id: createdTask.id,
+                },
             };
         }
         catch (error) {
@@ -66,7 +70,11 @@ let TasksController = class TasksController {
         return {
             statusCode: common_1.HttpStatus.OK,
             message: "Task updated successfully",
-            data: updatedTask,
+            data: {
+                title: updatedTask.title,
+                description: updatedTask.description,
+                id: updatedTask.id,
+            },
         };
     }
     async updateStatusTasks(id) {
@@ -119,7 +127,8 @@ __decorate([
     (0, swagger_1.ApiResponse)({ status: 201, description: "tasks created" }),
     (0, swagger_1.ApiBadRequestResponse)({ description: "Invalid task data" }),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
-    (0, common_1.Post)(),
+    (0, common_1.Post)("/create"),
+    openapi.ApiResponse({ status: common_1.HttpStatus.CREATED }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [createTasks_dto_1.CreateTasksDto]),
@@ -143,7 +152,7 @@ __decorate([
     (0, swagger_1.ApiResponse)({ status: 200, description: "Task status updated successfully" }),
     (0, swagger_1.ApiNotFoundResponse)({ description: "Task not found" }),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, common_1.Patch)("/id"),
+    (0, common_1.Patch)("/:id"),
     openapi.ApiResponse({ status: common_1.HttpStatus.OK }),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -155,7 +164,7 @@ __decorate([
     (0, swagger_1.ApiResponse)({ status: 200, description: "Task deleted successfully" }),
     (0, swagger_1.ApiNotFoundResponse)({ description: "Task not found" }),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, common_1.Delete)("/:id"),
+    (0, common_1.Delete)("delete/:id"),
     openapi.ApiResponse({ status: common_1.HttpStatus.OK }),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),

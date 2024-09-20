@@ -16,6 +16,7 @@ const passport_1 = require("@nestjs/passport");
 const constants_1 = require("./constants");
 const local_strategy_1 = require("./local.strategy");
 const jwt_strategy_1 = require("./jwt.strategy");
+const axios_module_1 = require("../axios/axios.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -23,12 +24,13 @@ exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
             users_module_1.UsersModule,
-            passport_1.PassportModule,
+            passport_1.PassportModule.register({ session: false }),
             jwt_1.JwtModule.register({
                 global: true,
                 secret: constants_1.jwtConstants.secret,
-                signOptions: { expiresIn: "60s" },
+                signOptions: { expiresIn: "3600s" },
             }),
+            axios_module_1.AxiosModule,
         ],
         providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy],
         controllers: [auth_controller_1.AuthController],

@@ -13,8 +13,6 @@ const app_service_1 = require("./app.service");
 const tasks_module_1 = require("./tasks/tasks.module");
 const auth_module_1 = require("./auth/auth.module");
 const users_module_1 = require("./users/users.module");
-const projects_module_1 = require("./projects/projects.module");
-const hello_module_1 = require("./hello/hello.module");
 const config_1 = require("@nestjs/config");
 const auth_service_1 = require("./auth/auth.service");
 let AppModule = class AppModule {
@@ -29,8 +27,6 @@ exports.AppModule = AppModule = __decorate([
             tasks_module_1.TasksModule,
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
-            projects_module_1.ProjectsModule,
-            hello_module_1.HelloModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService, auth_service_1.AuthService],

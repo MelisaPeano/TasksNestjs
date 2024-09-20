@@ -11,22 +11,25 @@ export class UsersService {
   createOneUsers(users: CreateUserDto) {
     return this.prisma.user.create({ data: users }); // creo un nuevo user
   }
-  async findOne(username: string) {
-    console.log("Received username en users service:", username);
-
-    if (!username) {
-      throw new Error("Username is required");
+  async findOne(email: string) {
+    console.log("Received username en users service:", email);
+    try {
+      if (!email) {
+        throw new Error("Username is required");
+      }
+      const user = await this.prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
+      console.log("user", user);
+      if (!user) {
+        throw new NotFoundException(`User with username ${email} not found`);
+      }
+      return user;
+    } catch (error) {
+      console.error("Error finding user:", error);
+      throw new Error("An error occurred while fetching the user.");
     }
-    const user = await this.prisma.user.findUnique({
-      where: {
-        username: username,
-      },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with username ${username} not found`);
-    }
-
-    return user;
   }
 }

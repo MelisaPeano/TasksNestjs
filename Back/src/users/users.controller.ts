@@ -4,7 +4,6 @@ import {
   Controller,
   Get,
   Post,
-  Query,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
@@ -32,30 +31,12 @@ export class UsersController {
   @ApiResponse({ status: 201, description: "User created successfully" })
   @ApiResponse({ status: 400, description: "Bad Request: Invalid input" })
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) //acepta solo datos del dto
-  @Post()
+  @Post("/create")
   async createUsers(@Body() user: CreateUserDto) {
     try {
       return this.usersService.createOneUsers(user);
     } catch (error) {
       throw new BadRequestException("Invalid user data", error.message);
     }
-  }
-  @ApiOperation({ summary: "Login a user" })
-  @ApiResponse({ status: 200, description: "User logged in successfully" })
-  @ApiResponse({ status: 404, description: "User not found" })
-  @ApiResponse({
-    status: 400,
-    description: "Bad Request: Missing or invalid username",
-  })
-  @Get("/login")
-  async findOne(@Query("username") username: string) {
-    if (!username) {
-      throw new BadRequestException("username is required");
-    }
-    const user = await this.usersService.findOne(username);
-    if (!user) {
-      throw new UserNotFoundException();
-    }
-    return user;
   }
 }

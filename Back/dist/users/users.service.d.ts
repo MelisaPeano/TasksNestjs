@@ -21,7 +21,7 @@ export declare class UsersService {
         updateaT: Date;
         username: string;
     }, never, import("@prisma/client/runtime/library").DefaultArgs>;
-    findOne(username: string): Promise<{
+    findOne(email: string): Promise<{
         id: string;
         email: string;
         name: string | null;

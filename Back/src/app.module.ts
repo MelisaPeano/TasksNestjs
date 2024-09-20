@@ -4,8 +4,6 @@ import { AppService } from "./app.service";
 import { TasksModule } from "./tasks/tasks.module";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
-import { ProjectsModule } from "./projects/projects.module";
-import { HelloModule } from "./hello/hello.module";
 import { ConfigModule } from "@nestjs/config";
 import { AuthService } from "./auth/auth.service";
 
@@ -18,8 +16,6 @@ import { AuthService } from "./auth/auth.service";
     TasksModule,
     AuthModule,
     UsersModule,
-    ProjectsModule,
-    HelloModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],

@@ -14,10 +14,11 @@ import { LoginUserDto } from "../users/dto/loginUser.dto";
 import { ApiBearerAuth } from "@nestjs/swagger";
 import { LocalAuthGuard } from "./local-auth.guard";
 import { LocalStrategy } from "./local.strategy";
+
 @Controller("auth")
 export class AuthController {
   constructor(
-    private authService: AuthService,
+    private readonly authService: AuthService,
     private localJWT: LocalStrategy,
   ) {}
 
@@ -25,13 +26,14 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post("login")
   signIn(@Body() signInDto: LoginUserDto) {
-    console.log("Received username auth controller :", signInDto.username);
-    return this.authService.signIn(signInDto.username, signInDto.password);
+    console.log("Received username auth controller :", signInDto.email);
+    return this.authService.signIn(signInDto.email, signInDto.password);
   }
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @Get("profile")
   getProfile(@Request() req) {
+    console.log(req.user);
     return req.user;
   }
 }

@@ -65,14 +65,18 @@ export class TasksController {
   @ApiResponse({ status: 201, description: "tasks created" })
   @ApiBadRequestResponse({ description: "Invalid task data" })
   @HttpCode(HttpStatus.CREATED)
-  @Post()
+  @Post("/create")
   async createTasks(@Body() tasks: CreateTasksDto) {
     try {
-      const createdTask = this.tasksService.createTask(tasks);
+      const createdTask = await this.tasksService.createTask(tasks);
       return {
         statusCode: HttpStatus.CREATED,
         message: "task created successefuly",
-        data: createdTask,
+        data: {
+          title: createdTask.title,
+          description: createdTask.description,
+          id: createdTask.id,
+        },
       };
     } catch (error) {
       throw new HttpException(
@@ -94,14 +98,18 @@ export class TasksController {
     return {
       statusCode: HttpStatus.OK,
       message: "Task updated successfully",
-      data: updatedTask,
+      data: {
+        title: updatedTask.title,
+        description: updatedTask.description,
+        id: updatedTask.id,
+      },
     };
   }
   @ApiOperation({ summary: "Update task status by ID" })
   @ApiResponse({ status: 200, description: "Task status updated successfully" })
   @ApiNotFoundResponse({ description: "Task not found" })
   @HttpCode(HttpStatus.OK)
-  @Patch("/id")
+  @Patch("/:id")
   async updateStatusTasks(@Param("id") id: string) {
     const updatedTask = await this.tasksService.updateStatusTask(parseInt(id));
     if (!updatedTask) {
@@ -117,7 +125,7 @@ export class TasksController {
   @ApiResponse({ status: 200, description: "Task deleted successfully" })
   @ApiNotFoundResponse({ description: "Task not found" })
   @HttpCode(HttpStatus.OK)
-  @Delete("/:id")
+  @Delete("delete/:id")
   async deleteTasks(@Param("id") id: string) {
     const deletedTask = await this.tasksService.deleteTask(parseInt(id));
     if (!deletedTask) {
