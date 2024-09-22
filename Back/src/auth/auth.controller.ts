@@ -27,6 +27,13 @@ export class AuthController {
   @Post("login")
   signIn(@Body() signInDto: LoginUserDto) {
     console.log("Received username auth controller :", signInDto.email);
+    const validateUser = this.authService.validateUser(
+      signInDto.email,
+      signInDto.password,
+    );
+    if (!validateUser) {
+      throw new Error("Invalid credentials");
+    }
     return this.authService.signIn(signInDto.email, signInDto.password);
   }
   @UseGuards(AuthGuard)

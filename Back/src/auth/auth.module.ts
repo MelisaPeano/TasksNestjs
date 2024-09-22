@@ -7,7 +7,6 @@ import { PassportModule } from "@nestjs/passport";
 import { jwtConstants } from "./constants";
 import { LocalStrategy } from "./local.strategy";
 import { JwtStrategy } from "./jwt.strategy";
-import { AxiosModule } from "axios/axios.module";
 @Module({
   imports: [
     UsersModule,
@@ -17,7 +16,6 @@ import { AxiosModule } from "axios/axios.module";
       secret: jwtConstants.secret,
       signOptions: { expiresIn: "3600s" },
     }),
-    AxiosModule,
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],

@@ -51,15 +51,20 @@ export class TasksController {
   @HttpCode(HttpStatus.OK)
   @Get("/:id")
   async getTask(@Param("id") id: string) {
-    const task = this.tasksService.getTask(parseInt(id));
-    if (!task) {
+    try {
+      const task = await this.tasksService.getTask(parseInt(id));
+      if (!task) {
+        throw new NotFoundException(`task whit ${id} not found`);
+      } else {
+        return {
+          data: task,
+          statusCode: HttpStatus.OK,
+          message: "Task retrieved successfully",
+        };
+      }
+    } catch (error) {
       throw new NotFoundException(`task whit ${id} not found`);
     }
-    return {
-      data: task,
-      statusCode: HttpStatus.OK,
-      message: "Task retrieved successfully",
-    };
   }
   @ApiOperation({ summary: "Create a new task" })
   @ApiResponse({ status: 201, description: "tasks created" })
@@ -127,13 +132,19 @@ export class TasksController {
   @HttpCode(HttpStatus.OK)
   @Delete("delete/:id")
   async deleteTasks(@Param("id") id: string) {
-    const deletedTask = await this.tasksService.deleteTask(parseInt(id));
-    if (!deletedTask) {
+    try {
+      const deletedTask = await this.tasksService.deleteTask(parseInt(id));
+      if (!deletedTask) {
+        throw new NotFoundException(`Task with ID ${id} not found`);
+      }
+      if (deletedTask) {
+        return {
+          statusCode: HttpStatus.OK,
+          message: "Task deleted successfully",
+        };
+      }
+    } catch (error) {
       throw new NotFoundException(`Task with ID ${id} not found`);
     }
-    return {
-      statusCode: HttpStatus.OK,
-      message: "Task deleted successfully",
-    };
   }
 }
