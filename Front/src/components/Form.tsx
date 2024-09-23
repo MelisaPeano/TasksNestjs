@@ -1,4 +1,4 @@
-import "./FormStyle.css";
+
 import Todo from "./dto/todoDto";
 
 interface FormProps {
@@ -8,11 +8,13 @@ const Form: React.FC<FormProps>= ({setTodos}) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const form1 = e.target as HTMLFormElement
-    const value =  form1.todo.value;
+    const titleValue = form1.todo.value;           // Valor del título
+    const descriptionValue = form1.description.value;
     setTodos((prevTodos) => [
       ...prevTodos,
       {
-        title: value,
+        title: titleValue,
+        description: descriptionValue,
         id: crypto.randomUUID(),
         is_completed: false
       },
@@ -20,12 +22,18 @@ const Form: React.FC<FormProps>= ({setTodos}) => {
     form1.reset()
   };
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form className="card basis-1/4" onSubmit={handleSubmit}>
       <label className="todo">
         <input
         type="text"
         name="todo"
         id="todo"
+        placeholder="Write your title"
+        />
+         <input
+        type="text"
+        name="description"
+        id="description"
         placeholder="Write your next tasks"
         />
       </label>

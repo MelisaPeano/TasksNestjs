@@ -28,6 +28,10 @@ let AuthController = class AuthController {
     }
     signIn(signInDto) {
         console.log("Received username auth controller :", signInDto.email);
+        const validateUser = this.authService.validateUser(signInDto.email, signInDto.password);
+        if (!validateUser) {
+            throw new Error("Invalid credentials");
+        }
         return this.authService.signIn(signInDto.email, signInDto.password);
     }
     getProfile(req) {

@@ -35,15 +35,22 @@ let TasksController = class TasksController {
         };
     }
     async getTask(id) {
-        const task = this.tasksService.getTask(parseInt(id));
-        if (!task) {
+        try {
+            const task = await this.tasksService.getTask(parseInt(id));
+            if (!task) {
+                throw new common_1.NotFoundException(`task whit ${id} not found`);
+            }
+            else {
+                return {
+                    data: task,
+                    statusCode: common_1.HttpStatus.OK,
+                    message: "Task retrieved successfully",
+                };
+            }
+        }
+        catch (error) {
             throw new common_1.NotFoundException(`task whit ${id} not found`);
         }
-        return {
-            data: task,
-            statusCode: common_1.HttpStatus.OK,
-            message: "Task retrieved successfully",
-        };
     }
     async createTasks(tasks) {
         try {
@@ -89,14 +96,21 @@ let TasksController = class TasksController {
         };
     }
     async deleteTasks(id) {
-        const deletedTask = await this.tasksService.deleteTask(parseInt(id));
-        if (!deletedTask) {
+        try {
+            const deletedTask = await this.tasksService.deleteTask(parseInt(id));
+            if (!deletedTask) {
+                throw new common_1.NotFoundException(`Task with ID ${id} not found`);
+            }
+            if (deletedTask) {
+                return {
+                    statusCode: common_1.HttpStatus.OK,
+                    message: "Task deleted successfully",
+                };
+            }
+        }
+        catch (error) {
             throw new common_1.NotFoundException(`Task with ID ${id} not found`);
         }
-        return {
-            statusCode: common_1.HttpStatus.OK,
-            message: "Task deleted successfully",
-        };
     }
 };
 exports.TasksController = TasksController;
@@ -117,6 +131,7 @@ __decorate([
     (0, swagger_1.ApiNotFoundResponse)({ description: "Task not found" }),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Get)("/:id"),
+    openapi.ApiResponse({ status: common_1.HttpStatus.OK }),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

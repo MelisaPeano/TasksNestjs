@@ -1,4 +1,4 @@
-import "./TodoHeroStyle.css";
+
 
 
 interface TodoHeroProps {
@@ -8,10 +8,10 @@ interface TodoHeroProps {
 const TodoHero: React.FC<TodoHeroProps> = ({todos_completed, total_todos}) => {
 
   return (
-    <section className="todohero_section">
+    <section className="card basis-1/4">
       <div className="last-child">
-        <p>Task Done</p>
-        <p>Keep it up</p>
+        <p className="parrafo">Task Done</p>
+        <p className="parrafo">Keep it up</p>
       </div>
       <div>
         {todos_completed}/{total_todos}

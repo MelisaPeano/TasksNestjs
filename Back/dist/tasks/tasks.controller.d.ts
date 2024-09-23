@@ -18,14 +18,14 @@ export declare class TasksController {
         message: string;
     }>;
     getTask(id: string): Promise<{
-        data: Promise<{
+        data: {
             id: number;
             title: string;
             description: string | null;
             status: boolean;
             isCompleted: boolean;
             createdAt: Date;
-        }>;
+        };
         statusCode: HttpStatus;
         message: string;
     }>;

@@ -24,7 +24,7 @@ let TasksService = class TasksService {
             where: { id },
         });
         if (!task) {
-            throw new common_1.NotFoundException(`Task no encontrada`);
+            return undefined;
         }
         return task;
     }
@@ -56,13 +56,18 @@ let TasksService = class TasksService {
         return task;
     }
     async deleteTask(id) {
-        const task = this.prisma.task.delete({
-            where: { id },
-        });
-        if (!task) {
-            throw new common_1.NotFoundException(`Task no encontrada`);
+        try {
+            const task = await this.prisma.task.delete({
+                where: { id },
+            });
+            if (!task) {
+                return undefined;
+            }
+            return task;
         }
-        return task;
+        catch (error) {
+            throw new common_1.NotFoundException(`task whit ${id} not found`);
+        }
     }
 };
 exports.TasksService = TasksService;

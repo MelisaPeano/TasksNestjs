@@ -2,7 +2,7 @@
 
 const Heder = () => {
   return (
-    <div>
+    <div className="card basis-1/4">
       <h1>Todo List</h1>
     </div>
 

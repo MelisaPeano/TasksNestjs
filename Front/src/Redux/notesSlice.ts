@@ -16,18 +16,24 @@ const notesSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, action) => {
-      state.tasks.push(action.payload);
+      const newTask = {
+        id: action.payload.id,
+        title: action.payload.title,
+        description: action.payload.description,
+        is_completed: false,
+      };
+      state.tasks.push(newTask);
     },
     removeTask: (state, action: PayloadAction<string>) => {
        state.tasks = state.tasks.filter(note => note.id !== action.payload);
     },
-    updateTask: (state, action: PayloadAction<{ id: string, title: string, description: string }>) => {
-      const { id, description, title } = action.payload;
+    updateTask: (state, action: PayloadAction<{ id: string, title: string, description: string}>) => {
+      const { id, title, description} = action.payload;
       const existingNote = state.tasks.find(note => note.id === id);
       if (existingNote) {
-        existingNote.description = description;
         existingNote.title = title;
         existingNote.id = id;
+        existingNote.description = description;
       }
     },
   },

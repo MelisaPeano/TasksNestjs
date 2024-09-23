@@ -11,7 +11,6 @@ const TaskViews = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const todos_completed = todos.filter((todo) => todo.is_completed === true).length;
   const total_todos = todos.length;
-  console.log(user)
    return (
     <div style={{
      height: "70vh",
@@ -19,7 +18,7 @@ const TaskViews = () => {
      display: "grid",
 
     }}>
-        <div>
+      <div className="flex gap-4">
         <Header/>
         <TodoHero todos_completed={todos_completed} total_todos={total_todos} />
         <Form setTodos={setTodos}/>

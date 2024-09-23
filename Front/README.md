@@ -1,4 +1,15 @@
 # React + TypeScript + Vite
+Hola!!, 
+npm install para instalar las dependencias.
+Remplaza las variables de entorno
+para ver la documentacion de esta API http://localhost:3000/api
+Desarrollado con NestJs, Postgres, Prisma, documentación: Swagger.
+Test: Jess
+
+
+
+
+
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

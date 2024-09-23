@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .input {
+    @apply bg-red-300 w-40 h-40 grid place-content-center rounded-lg text-white border-red-600
+  }
+}
 
 button {
   cursor: pointer;
