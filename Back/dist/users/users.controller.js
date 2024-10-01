@@ -45,7 +45,7 @@ __decorate([
     (0, swagger_1.ApiResponse)({ status: 200, description: "Get all users" }),
     (0, swagger_1.ApiResponse)({ status: 401, description: "Unauthorized" }),
     (0, common_1.Get)(),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: [Object] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

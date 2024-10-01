@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Task {
-  id: string;
   title: string;
   description: string;
+  id: string;
+  userId: string;
+  isCompleted: boolean;
 }
 interface TaskState {
   tasks: Task[];
@@ -15,25 +17,21 @@ const notesSlice = createSlice({
   name: 'Tasks',
   initialState,
   reducers: {
-    addTask: (state, action) => {
-      const newTask = {
-        id: action.payload.id,
-        title: action.payload.title,
-        description: action.payload.description,
-        is_completed: false,
+    addTask: (state, action: PayloadAction<Task>) => {
+      const newTodo: Task = {
+        ...action.payload,
       };
-      state.tasks.push(newTask);
+      state.tasks.push(newTodo);
     },
     removeTask: (state, action: PayloadAction<string>) => {
        state.tasks = state.tasks.filter(note => note.id !== action.payload);
     },
-    updateTask: (state, action: PayloadAction<{ id: string, title: string, description: string}>) => {
-      const { id, title, description} = action.payload;
-      const existingNote = state.tasks.find(note => note.id === id);
+    updateTask: (state, action) => {
+      const existingNote = state.tasks.find(note => note.id === action.payload.id);
       if (existingNote) {
-        existingNote.title = title;
-        existingNote.id = id;
-        existingNote.description = description;
+        existingNote.title = action.payload.title;
+        existingNote.description = action.payload.description;
+        existingNote.isCompleted = action.payload.isCompleted;
       }
     },
   },

@@ -45,6 +45,27 @@ export class TasksController {
       message: "Tasks retrieved successfully",
     };
   }
+  @ApiOperation({ summary: "Get a task user" })
+  @ApiResponse({ status: 200, description: "Task user found successfully" })
+  @ApiNotFoundResponse({ description: "Task user not found" })
+  @HttpCode(HttpStatus.OK)
+  @Get("/get/:id")
+  async getTaskUser(@Param("id") id: string) {
+    try {
+      const task = await this.tasksService.getTasksByUser(id);
+      if (!task) {
+        throw new NotFoundException(`task whit ${id} not found`);
+      } else {
+        return {
+          data: task,
+          statusCode: HttpStatus.OK,
+          message: "Task retrieved successfully",
+        };
+      }
+    } catch (error) {
+      throw new NotFoundException(`task whit ${id} not found`);
+    }
+  }
   @ApiOperation({ summary: "Get a task by ID" })
   @ApiResponse({ status: 200, description: "Task found successfully" })
   @ApiNotFoundResponse({ description: "Task not found" })
@@ -81,6 +102,8 @@ export class TasksController {
           title: createdTask.title,
           description: createdTask.description,
           id: createdTask.id,
+          status: createdTask.isCompleted,
+          userId: createdTask.userId,
         },
       };
     } catch (error) {

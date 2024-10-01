@@ -3,7 +3,17 @@ import { PrismaService } from "../prisma.service";
 export declare class UsersService {
     private prisma;
     constructor(prisma: PrismaService);
-    getUsers(): import(".prisma/client").Prisma.PrismaPromise<{
+    getUsers(): Promise<({
+        Tasks: {
+            id: number;
+            title: string;
+            description: string | null;
+            status: boolean;
+            isCompleted: boolean;
+            createdAt: Date;
+            userId: string;
+        }[];
+    } & {
         id: string;
         email: string;
         name: string | null;
@@ -11,17 +21,36 @@ export declare class UsersService {
         createdAt: Date;
         updateaT: Date;
         username: string;
-    }[]>;
-    createOneUsers(users: CreateUserDto): import(".prisma/client").Prisma.Prisma__UserClient<{
+    })[]>;
+    createOneUsers(users: CreateUserDto): Promise<{
         id: string;
         email: string;
-        name: string | null;
+        name: string;
         password: string;
         createdAt: Date;
         updateaT: Date;
         username: string;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs>;
+        Tasks: {
+            id: number;
+            title: string;
+            description: string | null;
+            status: boolean;
+            isCompleted: boolean;
+            createdAt: Date;
+            userId: string;
+        }[];
+    }>;
     findOne(email: string): Promise<{
+        Tasks: {
+            id: number;
+            title: string;
+            description: string | null;
+            status: boolean;
+            isCompleted: boolean;
+            createdAt: Date;
+            userId: string;
+        }[];
+    } & {
         id: string;
         email: string;
         name: string | null;

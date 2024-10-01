@@ -21,6 +21,7 @@ model User {
   createdAt DateTime @default(now())
   updateaT DateTime @updatedAt
   username String @unique
+  Tasks  Task[]
 }
 
 model Task {
@@ -30,4 +31,6 @@ model Task {
   status      Boolean  @default(true)
   isCompleted Boolean  @default(false)
   createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String  
 }

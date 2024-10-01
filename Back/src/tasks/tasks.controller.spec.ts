@@ -48,6 +48,7 @@ describe("TasksController", () => {
     const tasksMock = {
       title: "test",
       description: "test",
+      userId: "jssjdjf",
     };
     const result = {
       id: 1,
@@ -56,6 +57,7 @@ describe("TasksController", () => {
       createdAt: new Date(),
       title: "test",
       description: "test",
+      userId: "jdjdjf",
     };
     jest.spyOn(tasksService, "createTask").mockResolvedValue(result);
     expect(await controller.createTasks(tasksMock)).toEqual({
@@ -72,6 +74,7 @@ describe("TasksController", () => {
     const createTaskDto: CreateTasksDto = {
       title: "Test Task",
       description: "Test Description",
+      userId: "jdjdjf",
     };
 
     jest.spyOn(tasksService, "createTask").mockRejectedValue(new Error());
@@ -93,6 +96,7 @@ describe("TasksController", () => {
           createdAt: new Date(),
           title: "test",
           description: "test",
+          userId: "jdjddjf",
         },
         {
           id: 2,
@@ -101,6 +105,7 @@ describe("TasksController", () => {
           createdAt: new Date(),
           title: "test2",
           description: "test2",
+          userId: "jdjdjf",
         },
       ];
       jest.spyOn(tasksService, "getTasks").mockResolvedValue(result);
@@ -126,6 +131,7 @@ describe("TasksController", () => {
         createdAt: new Date(),
         title: "test",
         description: "test",
+        userId: "jdjdjf",
       };
       jest.spyOn(tasksService, "getTask").mockResolvedValue(result);
       expect(await controller.getTask("1")).toEqual({
@@ -150,6 +156,7 @@ describe("TasksController", () => {
         createdAt: new Date(),
         title: "test",
         description: "test",
+        userId: "jdjdjf",
       };
       jest.spyOn(tasksService, "deleteTask").mockResolvedValue(result);
       expect(await controller.deleteTasks("1")).toEqual({

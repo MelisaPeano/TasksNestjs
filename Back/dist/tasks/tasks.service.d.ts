@@ -7,6 +7,7 @@ export declare class TasksService {
     constructor(prisma: PrismaService);
     getTasks(): Promise<Task[]>;
     getTask(id: number): Promise<Task | null>;
+    getTasksByUser(userId: string): Promise<Task[]>;
     createTask(data: CreateTasksDto): Promise<Task>;
     updateTask(id: number, data: updateTasksDto): Promise<Task>;
     updateStatusTask(id: number): Promise<Task>;

@@ -8,6 +8,16 @@ export declare class AuthService {
     validateUser(username: string, password: string): Promise<any>;
     signIn(email: string, password: string): Promise<AuthResponse>;
     findOrCreateUser(user: any): Promise<{
+        Tasks: {
+            id: number;
+            title: string;
+            description: string | null;
+            status: boolean;
+            isCompleted: boolean;
+            createdAt: Date;
+            userId: string;
+        }[];
+    } & {
         id: string;
         email: string;
         name: string | null;

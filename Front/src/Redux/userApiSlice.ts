@@ -44,12 +44,7 @@ export const userApiSlice = createApi({
           },
         }),
       }),
-      loginWithGoogle: builder.mutation<AuthResponse, string>({
-        query: () => ({
-          url: 'auth/google',
-          method: 'POST',
-        }),
-      }),
+
       profileUser: builder.query<User, void>({
         query: () => ({
           url: 'auth/profile',
@@ -61,4 +56,4 @@ export const userApiSlice = createApi({
   
   })
 
-  export const { useGetUserQuery, useCreateUserMutation, useLoginUserMutation, useProfileUserQuery, useLoginWithGoogleMutation} = userApiSlice
+  export const { useGetUserQuery, useCreateUserMutation, useLoginUserMutation, useProfileUserQuery} = userApiSlice

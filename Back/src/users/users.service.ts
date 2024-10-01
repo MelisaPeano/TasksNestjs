@@ -1,15 +1,43 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { CreateUserDto } from "./dto/createUser.dto";
 import { PrismaService } from "../prisma.service";
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
-  getUsers() {
-    return this.prisma.user.findMany(); // busco todos los users en la base de datos
+  async getUsers() {
+    const users = await this.prisma.user.findMany({
+      include: {
+        Tasks: true,
+      },
+    });
+    return users;
   }
-  createOneUsers(users: CreateUserDto) {
-    return this.prisma.user.create({ data: users }); // creo un nuevo user
+  async createOneUsers(users: CreateUserDto) {
+    try {
+      const create = await this.prisma.user.create({
+        data: users,
+        include: {
+          Tasks: true,
+        },
+      });
+      return {
+        id: create.id,
+        email: create.email,
+        name: create.name,
+        password: create.password,
+        createdAt: create.createdAt,
+        updateaT: create.updateaT,
+        username: create.username,
+        Tasks: create.Tasks,
+      };
+    } catch (error) {
+      throw new BadRequestException("Invalid user data", error.message);
+    }
   }
   async findOne(email: string) {
     console.log("Received username en users service:", email);
@@ -20,6 +48,9 @@ export class UsersService {
       const user = await this.prisma.user.findUnique({
         where: {
           email: email,
+        },
+        include: {
+          Tasks: true,
         },
       });
       console.log("user", user);

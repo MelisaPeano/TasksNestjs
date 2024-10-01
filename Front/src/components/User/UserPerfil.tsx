@@ -9,13 +9,15 @@ Modal.setAppElement('#root');
 const UserPerfil: React.FC = () => {
   const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(true);
-  const user = useSelector((state: RootState) => state.users);
+  const user = useSelector((state: RootState) => state.users.user);
   console.log(user)
   console.log('Current user:', user)
   
   useEffect(() => {
-    if (user.user.email) {
+    if (user !== null) {
       setModalIsOpen(false);
+    } else {
+      setModalIsOpen(true)
     }
   }, [user]);
 
@@ -39,7 +41,7 @@ const UserPerfil: React.FC = () => {
 
   return (
     <div>
-      {!user.user.email && (
+      { user == null && (
         <>
         <section style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh"}}>
         <h1 style={{ marginTop: "2rem", fontSize: "3rem"}}>Bienvnido a Tasks To Do</h1>
@@ -68,7 +70,7 @@ const UserPerfil: React.FC = () => {
       )
       }
       {user && (
-        <h1>{user.user.email}</h1>
+        <h1>{user.email}</h1>
       )}
 
     </div>

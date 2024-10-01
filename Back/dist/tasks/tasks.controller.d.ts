@@ -13,6 +13,20 @@ export declare class TasksController {
             status: boolean;
             isCompleted: boolean;
             createdAt: Date;
+            userId: string;
+        }[];
+        statusCode: HttpStatus;
+        message: string;
+    }>;
+    getTaskUser(id: string): Promise<{
+        data: {
+            id: number;
+            title: string;
+            description: string | null;
+            status: boolean;
+            isCompleted: boolean;
+            createdAt: Date;
+            userId: string;
         }[];
         statusCode: HttpStatus;
         message: string;
@@ -25,6 +39,7 @@ export declare class TasksController {
             status: boolean;
             isCompleted: boolean;
             createdAt: Date;
+            userId: string;
         };
         statusCode: HttpStatus;
         message: string;
@@ -36,6 +51,8 @@ export declare class TasksController {
             title: string;
             description: string;
             id: number;
+            status: boolean;
+            userId: string;
         };
     }>;
     updateTasks(id: string, tasks: updateTasksDto): Promise<{
@@ -57,6 +74,7 @@ export declare class TasksController {
             status: boolean;
             isCompleted: boolean;
             createdAt: Date;
+            userId: string;
         };
     }>;
     deleteTasks(id: string): Promise<{

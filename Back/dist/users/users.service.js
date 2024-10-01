@@ -16,11 +16,36 @@ let UsersService = class UsersService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    getUsers() {
-        return this.prisma.user.findMany();
+    async getUsers() {
+        const users = await this.prisma.user.findMany({
+            include: {
+                Tasks: true,
+            },
+        });
+        return users;
     }
-    createOneUsers(users) {
-        return this.prisma.user.create({ data: users });
+    async createOneUsers(users) {
+        try {
+            const create = await this.prisma.user.create({
+                data: users,
+                include: {
+                    Tasks: true,
+                },
+            });
+            return {
+                id: create.id,
+                email: create.email,
+                name: create.name,
+                password: create.password,
+                createdAt: create.createdAt,
+                updateaT: create.updateaT,
+                username: create.username,
+                Tasks: create.Tasks,
+            };
+        }
+        catch (error) {
+            throw new common_1.BadRequestException("Invalid user data", error.message);
+        }
     }
     async findOne(email) {
         console.log("Received username en users service:", email);
@@ -31,6 +56,9 @@ let UsersService = class UsersService {
             const user = await this.prisma.user.findUnique({
                 where: {
                     email: email,
+                },
+                include: {
+                    Tasks: true,
                 },
             });
             console.log("user", user);

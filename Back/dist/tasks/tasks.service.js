@@ -28,9 +28,32 @@ let TasksService = class TasksService {
         }
         return task;
     }
+    async getTasksByUser(userId) {
+        const tasksUser = await this.prisma.user.findUnique({
+            where: { id: userId },
+            include: { Tasks: true },
+        });
+        if (!tasksUser) {
+            throw new common_1.NotFoundException(`User with ID ${userId} not found`);
+        }
+        return tasksUser.Tasks;
+    }
     async createTask(data) {
-        return this.prisma.task.create({
-            data,
+        return this.prisma.$transaction(async (prisma) => {
+            const user = await prisma.user.findUnique({
+                where: { id: data.userId },
+            });
+            if (!user) {
+                throw new common_1.BadRequestException("User not found");
+            }
+            const task = await prisma.task.create({
+                data: {
+                    title: data.title,
+                    description: data.description,
+                    userId: data.userId,
+                },
+            });
+            return task;
         });
     }
     async updateTask(id, data) {
@@ -44,16 +67,22 @@ let TasksService = class TasksService {
         return task;
     }
     async updateStatusTask(id) {
-        const task = this.prisma.task.update({
+        const task = await this.prisma.task.findUnique({
+            where: { id },
+        });
+        if (!task) {
+            throw new common_1.NotFoundException(`Task con ID ${id} no encontrada`);
+        }
+        const updatedTask = this.prisma.task.update({
             where: { id },
             data: {
-                status: false,
+                status: !task.status,
             },
         });
         if (!task) {
             throw new common_1.NotFoundException(`Task no encontrada`);
         }
-        return task;
+        return updatedTask;
     }
     async deleteTask(id) {
         try {

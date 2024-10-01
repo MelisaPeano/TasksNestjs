@@ -2,6 +2,7 @@ interface Todo {
   title: string;
   description: string;
   id: string;  
-  is_completed: boolean;
+  isCompleted: boolean;
+  userId?: string;
 }
 export default Todo;

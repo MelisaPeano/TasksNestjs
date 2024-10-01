@@ -34,6 +34,24 @@ let TasksController = class TasksController {
             message: "Tasks retrieved successfully",
         };
     }
+    async getTaskUser(id) {
+        try {
+            const task = await this.tasksService.getTasksByUser(id);
+            if (!task) {
+                throw new common_1.NotFoundException(`task whit ${id} not found`);
+            }
+            else {
+                return {
+                    data: task,
+                    statusCode: common_1.HttpStatus.OK,
+                    message: "Task retrieved successfully",
+                };
+            }
+        }
+        catch (error) {
+            throw new common_1.NotFoundException(`task whit ${id} not found`);
+        }
+    }
     async getTask(id) {
         try {
             const task = await this.tasksService.getTask(parseInt(id));
@@ -62,6 +80,8 @@ let TasksController = class TasksController {
                     title: createdTask.title,
                     description: createdTask.description,
                     id: createdTask.id,
+                    status: createdTask.isCompleted,
+                    userId: createdTask.userId,
                 },
             };
         }
@@ -125,6 +145,18 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "getAllTasks", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: "Get a task user" }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: "Task user found successfully" }),
+    (0, swagger_1.ApiNotFoundResponse)({ description: "Task user not found" }),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, common_1.Get)("/get/:id"),
+    openapi.ApiResponse({ status: common_1.HttpStatus.OK }),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TasksController.prototype, "getTaskUser", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: "Get a task by ID" }),
     (0, swagger_1.ApiResponse)({ status: 200, description: "Task found successfully" }),

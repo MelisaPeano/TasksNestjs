@@ -7,4 +7,8 @@ export class CreateTasksDto {
 
   @IsString()
   description: string;
+
+  @IsString()
+  @IsNotEmpty()
+  userId: string;
 }

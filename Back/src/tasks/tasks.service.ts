@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { CreateTasksDto } from "./dto/createTasks.dto";
 import { PrismaService } from "../prisma.service";
 import { Task } from "@prisma/client";
@@ -21,10 +25,34 @@ export class TasksService {
     }
     return task;
   }
+  async getTasksByUser(userId: string): Promise<Task[]> {
+    const tasksUser = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: { Tasks: true },
+    });
+    if (!tasksUser) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+    return tasksUser.Tasks;
+  }
   async createTask(data: CreateTasksDto): Promise<Task> {
-    // Creo una nueva tarea basandome en mi dto
-    return this.prisma.task.create({
-      data,
+    return this.prisma.$transaction(async (prisma) => {
+      const user = await prisma.user.findUnique({
+        where: { id: data.userId },
+      });
+
+      if (!user) {
+        throw new BadRequestException("User not found");
+      }
+      const task = await prisma.task.create({
+        data: {
+          title: data.title,
+          description: data.description,
+          userId: data.userId,
+        },
+      });
+
+      return task;
     });
   }
   async updateTask(id: number, data: updateTasksDto): Promise<Task> {
@@ -38,16 +66,22 @@ export class TasksService {
     return task;
   }
   async updateStatusTask(id: number): Promise<Task> {
-    const task = this.prisma.task.update({
+    const task = await this.prisma.task.findUnique({
+      where: { id },
+    });
+    if (!task) {
+      throw new NotFoundException(`Task con ID ${id} no encontrada`);
+    }
+    const updatedTask = this.prisma.task.update({
       where: { id },
       data: {
-        status: false,
+        status: !task.status,
       },
     });
     if (!task) {
       throw new NotFoundException(`Task no encontrada`);
     }
-    return task;
+    return updatedTask;
   }
   async deleteTask(id: number): Promise<Task> {
     try {
